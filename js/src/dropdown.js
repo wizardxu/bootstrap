@@ -145,14 +145,18 @@ const Dropdown = (($) => {
         return
       }
 
-      let element = this._element
-      // for dropup with alignment we use the parent as popper container
-      if ($(parent).hasClass(ClassName.DROPUP)) {
-        if ($(this._menu).hasClass(ClassName.MENULEFT) || $(this._menu).hasClass(ClassName.MENURIGHT)) {
-          element = parent
+      // Disable totally Popper.js for Dropdown in Navbar
+      if (!this._inNavbar) {
+        let element = this._element
+        // for dropup with alignment we use the parent as popper container
+        if ($(parent).hasClass(ClassName.DROPUP)) {
+          if ($(this._menu).hasClass(ClassName.MENULEFT) || $(this._menu).hasClass(ClassName.MENURIGHT)) {
+            element = parent
+          }
         }
+        this._popper = new Popper(element, this._menu, this._getPopperConfig())
       }
-      this._popper = new Popper(element, this._menu, this._getPopperConfig())
+
 
       // if this is a touch-enabled device we add extra
       // empty mouseover listeners to the body's immediate children;
@@ -179,8 +183,8 @@ const Dropdown = (($) => {
       this._menu = null
       if (this._popper !== null) {
         this._popper.destroy()
+        this._popper = null
       }
-      this._popper = null
     }
 
     update() {
@@ -265,12 +269,6 @@ const Dropdown = (($) => {
         }
       }
 
-      // Disable Popper.js for Dropdown in Navbar
-      if (this._inNavbar) {
-        popperConfig.modifiers.applyStyle = {
-          enabled: !this._inNavbar
-        }
-      }
       return popperConfig
     }
 
