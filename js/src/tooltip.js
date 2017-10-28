@@ -11,7 +11,6 @@ import Util from './util'
  */
 
 const Tooltip = (($) => {
-
   /**
    * Check for Popper dependency
    * Popper - https://popper.js.org
@@ -60,9 +59,9 @@ const Tooltip = (($) => {
 
   const Default = {
     animation           : true,
-    template            : '<div class="tooltip" role="tooltip">'
-                        + '<div class="arrow"></div>'
-                        + '<div class="tooltip-inner"></div></div>',
+    template            : '<div class="tooltip" role="tooltip">' +
+                        '<div class="arrow"></div>' +
+                        '<div class="tooltip-inner"></div></div>',
     trigger             : 'hover focus',
     title               : '',
     delay               : 0,
@@ -118,9 +117,7 @@ const Tooltip = (($) => {
    */
 
   class Tooltip {
-
     constructor(element, config) {
-
       // private
       this._isEnabled     = true
       this._timeout       = 0
@@ -134,7 +131,6 @@ const Tooltip = (($) => {
       this.tip     = null
 
       this._setListeners()
-
     }
 
 
@@ -207,9 +203,7 @@ const Tooltip = (($) => {
         } else {
           context._leave(null, context)
         }
-
       } else {
-
         if ($(this.getTipElement()).hasClass(ClassName.SHOW)) {
           this._leave(null, this)
           return
@@ -275,9 +269,9 @@ const Tooltip = (($) => {
           $(tip).addClass(ClassName.FADE)
         }
 
-        const placement  = typeof this.config.placement === 'function' ?
-          this.config.placement.call(this, tip, this.element) :
-          this.config.placement
+        const placement  = typeof this.config.placement === 'function'
+          ? this.config.placement.call(this, tip, this.element)
+          : this.config.placement
 
         const attachment = this._getAttachment(placement)
         this.addAttachmentClass(attachment)
@@ -389,17 +383,14 @@ const Tooltip = (($) => {
 
       if (Util.supportsTransitionEnd() &&
           $(this.tip).hasClass(ClassName.FADE)) {
-
         $(tip)
           .one(Util.TRANSITION_END, complete)
           .emulateTransitionEnd(TRANSITION_DURATION)
-
       } else {
         complete()
       }
 
       this._hoverState = ''
-
     }
 
     update() {
@@ -449,9 +440,9 @@ const Tooltip = (($) => {
       let title = this.element.getAttribute('data-original-title')
 
       if (!title) {
-        title = typeof this.config.title === 'function' ?
-          this.config.title.call(this.element) :
-          this.config.title
+        title = typeof this.config.title === 'function'
+          ? this.config.title.call(this.element)
+          : this.config.title
       }
 
       return title
@@ -474,14 +465,13 @@ const Tooltip = (($) => {
             this.config.selector,
             (event) => this.toggle(event)
           )
-
         } else if (trigger !== Trigger.MANUAL) {
-          const eventIn  = trigger === Trigger.HOVER ?
-            this.constructor.Event.MOUSEENTER :
-            this.constructor.Event.FOCUSIN
-          const eventOut = trigger === Trigger.HOVER ?
-            this.constructor.Event.MOUSELEAVE :
-            this.constructor.Event.FOCUSOUT
+          const eventIn  = trigger === Trigger.HOVER
+            ? this.constructor.Event.MOUSEENTER
+            : this.constructor.Event.FOCUSIN
+          const eventOut = trigger === Trigger.HOVER
+            ? this.constructor.Event.MOUSELEAVE
+            : this.constructor.Event.FOCUSOUT
 
           $(this.element)
             .on(
@@ -727,7 +717,6 @@ const Tooltip = (($) => {
   }
 
   return Tooltip
-
 })($, Popper)
 
 export default Tooltip
